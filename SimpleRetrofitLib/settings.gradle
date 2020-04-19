@@ -1,0 +1,2 @@
+rootProject.name='SimpleRetrofitLib'
+include ':app', ':lib_network'
