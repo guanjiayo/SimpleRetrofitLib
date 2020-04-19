@@ -9,6 +9,7 @@ import retrofit2.Retrofit
 import zs.xmx.network.config.ConfigKeys
 import zs.xmx.network.config.NetWorkInit
 import zs.xmx.network.https.HttpsUtils
+import zs.xmx.network.manager.RetrofitUrlManager
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -35,9 +36,12 @@ class RetrofitFactory private constructor() {
 
     private val baseUrl: String = NetWorkInit.getConfiguration<String>(ConfigKeys.NATIVE_API_HOST)
     private val timeOut: Long = NetWorkInit.getConfiguration<Long>(ConfigKeys.TIME_OUT) //连接超时时间
-    private var callAdapter: CallAdapter.Factory? = NetWorkInit.getConfiguration<CallAdapter.Factory>(ConfigKeys.CALL_ADAPTER) //callAdapter
-    private val interceptors: ArrayList<Interceptor> = NetWorkInit.getConfiguration<ArrayList<Interceptor>>(ConfigKeys.INTERCEPTOR)
-    private val converters: ArrayList<Converter.Factory> = NetWorkInit.getConfiguration<ArrayList<Converter.Factory>>(ConfigKeys.CONVERTER)
+    private var callAdapter: CallAdapter.Factory? =
+        NetWorkInit.getConfiguration<CallAdapter.Factory>(ConfigKeys.CALL_ADAPTER) //callAdapter
+    private val interceptors: ArrayList<Interceptor> =
+        NetWorkInit.getConfiguration<ArrayList<Interceptor>>(ConfigKeys.INTERCEPTOR)
+    private val converters: ArrayList<Converter.Factory> =
+        NetWorkInit.getConfiguration<ArrayList<Converter.Factory>>(ConfigKeys.CONVERTER)
     private val retrofit: Retrofit
 
     /*
@@ -69,8 +73,8 @@ class RetrofitFactory private constructor() {
         OKHttp创建
      */
     private fun initClient(): OkHttpClient {
-        val okhttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
-
+        val okhttpBuilder: OkHttpClient.Builder =
+            RetrofitUrlManager.getInstance().with(OkHttpClient.Builder())
         if (!interceptors.isNullOrEmpty()) {
             for (interceptor in interceptors) {
                 //仅在response调用一次
@@ -81,7 +85,10 @@ class RetrofitFactory private constructor() {
             okhttpBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
             okhttpBuilder.readTimeout(timeOut, TimeUnit.SECONDS)
             okhttpBuilder.writeTimeout(timeOut, TimeUnit.SECONDS)
-            okhttpBuilder.sslSocketFactory(HttpsUtils.initSSLSocketFactory(), HttpsUtils.initTrustManager())
+            okhttpBuilder.sslSocketFactory(
+                HttpsUtils.initSSLSocketFactory(),
+                HttpsUtils.initTrustManager()
+            )
         }
         return okhttpBuilder.build()
     }
