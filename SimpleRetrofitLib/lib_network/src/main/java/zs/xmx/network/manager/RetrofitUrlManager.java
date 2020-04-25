@@ -39,6 +39,8 @@ import zs.xmx.network.utils.CheckUtils;
  *
  * RetrofitUrlManager.DOMAIN_PATH_SIZE + 2
  * 看自己需要加或不加都可以
+ *
+ * todo 补充处理GlobalDomain的方案
  */
 public class RetrofitUrlManager {
     private static final String TAG = RetrofitUrlManager.class.getSimpleName();
@@ -157,7 +159,7 @@ public class RetrofitUrlManager {
      * 全局动态替换 BaseUrl, 优先级: Header中配置的 BaseUrl > 全局配置的 BaseUrl
      * 除了作为备用的 BaseUrl, 当您项目中只有一个 BaseUrl, 但需要动态切换
      * 这种方式不用在每个接口方法上加入 Header, 就能实现动态切换 BaseUrl
-     *
+     *  todo 扩展一个方法,类似上面加 DOMAIN_PATH_SIZE 字段,全局给oldUrl加标记,然后按我们定义的规则,全局替换baseUrl
      * @param globalDomain 全局 BaseUrl
      */
     public void setGlobalDomain(String globalDomain) {
