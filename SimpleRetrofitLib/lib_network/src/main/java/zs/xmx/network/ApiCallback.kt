@@ -1,4 +1,4 @@
-package zs.xmx.network.callback
+package zs.xmx.network
 
 
 import android.annotation.SuppressLint
@@ -7,7 +7,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.HttpException
 import retrofit2.Response
-import zs.xmx.network.ResultCode
+import zs.xmx.network.constant.ResultCode
 import java.net.ConnectException
 
 

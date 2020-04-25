@@ -4,7 +4,6 @@ import android.app.Application
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.gson.GsonConverterFactory
 import zs.xmx.network.config.NetWorkInit
-import zs.xmx.retrofit.interceptor.BaseUrlInterceptor
 import zs.xmx.retrofit.interceptor.HttpLoggerInterceptor
 
 /*
@@ -26,7 +25,7 @@ class MyApplication : Application() {
             .withNativeApiHost("https://gank.io/api/v2/categories/")
             .withTimeOut(50)
             .withInterceptor(initLogInterceptor())
-            .withInterceptor(BaseUrlInterceptor())
+        //    .withInterceptor(BaseUrlInterceptor())
             .withConverter(GsonConverterFactory.create())
             .configure()
     }

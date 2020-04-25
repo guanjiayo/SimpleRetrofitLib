@@ -2,26 +2,31 @@ package zs.xmx.retrofit
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import zs.xmx.network.RetrofitFactory
-import zs.xmx.network.callback.ApiCallback
+import zs.xmx.network.ApiCallback
+import zs.xmx.network.manager.RetrofitUrlManager
 import zs.xmx.retrofit.constant.UrlConstant
+import zs.xmx.retrofit.databinding.ActivityMainBinding
 import zs.xmx.retrofit.net.TestApi
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val mBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mBinding.root)
 
-        findViewById<Button>(R.id.releaseUrl).setOnClickListener {
+        //{"baidu","http://www.baidu.com"}
+        RetrofitUrlManager.getInstance().putDomain(UrlConstant.BADIDU, UrlConstant.DEF_BAIDU_URL)
+
+        mBinding.releaseUrl.setOnClickListener {
             UrlConstant.setDefGankUrl(UrlConstant.DEF_DOUBAN_URL)
             //测试切换全局的BaseUrl
             Log.d("Logger", "BaseUrl:   " + UrlConstant.getDefGankUrl())
         }
 
-        findViewById<Button>(R.id.request).setOnClickListener {
+        mBinding.request.setOnClickListener {
             RetrofitFactory.instance.create(TestApi::class.java).getGanHuo()
                 .enqueue(object : ApiCallback<Any?>() {
                     override fun onSuccess(t: Any?) {
@@ -33,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
         }
-        findViewById<Button>(R.id.request2).setOnClickListener {
+        mBinding.request2.setOnClickListener {
             RetrofitFactory.instance.create(TestApi::class.java).getArticle()
                 .enqueue(object : ApiCallback<Any?>() {
                     override fun onSuccess(t: Any?) {
@@ -45,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
         }
-        findViewById<Button>(R.id.request3).setOnClickListener {
+        mBinding.request3.setOnClickListener {
             RetrofitFactory.instance.create(TestApi::class.java).getGirl()
                 .enqueue(object : ApiCallback<Any?>() {
                     override fun onSuccess(t: Any?) {

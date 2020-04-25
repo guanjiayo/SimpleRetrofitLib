@@ -8,7 +8,7 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import zs.xmx.network.config.ConfigKeys
 import zs.xmx.network.config.NetWorkInit
-import zs.xmx.network.https.HttpsUtils
+import zs.xmx.network.utils.HttpsUtils
 import zs.xmx.network.manager.RetrofitUrlManager
 import java.util.*
 import java.util.concurrent.TimeUnit

@@ -1,4 +1,4 @@
-package zs.xmx.network.callback
+package zs.xmx.network
 
 /*
  * @创建者     默小铭

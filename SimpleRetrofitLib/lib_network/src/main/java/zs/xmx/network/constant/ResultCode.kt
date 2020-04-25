@@ -1,4 +1,4 @@
-package zs.xmx.network
+package zs.xmx.network.constant
 
 /*
  * @创建者     默小铭

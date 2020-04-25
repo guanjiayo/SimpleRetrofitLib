@@ -1,4 +1,4 @@
-package zs.xmx.network.https;
+package zs.xmx.network.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
