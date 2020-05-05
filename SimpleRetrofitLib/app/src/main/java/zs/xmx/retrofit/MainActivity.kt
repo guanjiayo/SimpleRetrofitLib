@@ -3,12 +3,14 @@ package zs.xmx.retrofit
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import zs.xmx.network.RetrofitFactory
 import zs.xmx.network.ApiCallback
+import zs.xmx.network.RetrofitFactory
 import zs.xmx.network.manager.RetrofitUrlManager
 import zs.xmx.retrofit.constant.UrlConstant
 import zs.xmx.retrofit.databinding.ActivityMainBinding
 import zs.xmx.retrofit.net.TestApi
+import java.lang.reflect.ParameterizedType
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,6 +18,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
+
+        mBinding.button.setOnClickListener {
+
+        }
 
         //{"baidu","http://www.baidu.com"}
         RetrofitUrlManager.getInstance().putDomain(UrlConstant.BADIDU, UrlConstant.DEF_BAIDU_URL)
@@ -27,6 +33,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mBinding.request.setOnClickListener {
+            val ganHuo = RetrofitFactory.instance.create(TestApi::class.java).getGanHuo()
+
             RetrofitFactory.instance.create(TestApi::class.java).getGanHuo()
                 .enqueue(object : ApiCallback<Any?>() {
                     override fun onSuccess(t: Any?) {
@@ -35,6 +43,10 @@ class MainActivity : AppCompatActivity() {
 
                     override fun onFailed(code: Int, msg: String?) {
                         Log.e("HAHA", "code:  $code       msg:   $msg ")
+                    }
+
+                    override fun onCacheSuccess(t: Any?) {
+                        Log.d("HAHA", "GanHuo:(onCacheSuccess)   " + t.toString())
                     }
                 })
         }

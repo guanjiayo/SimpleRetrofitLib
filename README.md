@@ -42,3 +42,4 @@ NetWorkInit.newInstance(this).withNativeApiHost(BaseConstant.URL_BASE)
   todo 补充处理GlobalDomain的方案
 ```
 
+新增了基于Room的CacheManager,但是
