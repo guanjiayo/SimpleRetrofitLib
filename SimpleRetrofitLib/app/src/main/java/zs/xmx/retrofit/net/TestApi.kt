@@ -5,6 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import zs.xmx.network.ApiResponse
 import zs.xmx.network.manager.RetrofitUrlManager
+import zs.xmx.retrofit.TestBean
 import zs.xmx.retrofit.constant.UrlConstant
 
 /*
@@ -17,7 +18,7 @@ import zs.xmx.retrofit.constant.UrlConstant
 interface TestApi {
 
     @GET("GanHuo")
-    fun getGanHuo(): Call<ApiResponse<Any?>>
+    fun getGanHuo(): Call<ApiResponse<MutableList<TestBean>?>>
 
     //直接写BaseUrl拦截器写法
     //@Headers(UrlConstant.DOMAIN_BAIDU)

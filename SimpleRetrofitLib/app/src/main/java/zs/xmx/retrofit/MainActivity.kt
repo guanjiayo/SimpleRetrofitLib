@@ -5,14 +5,16 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import zs.xmx.network.ApiCallback
 import zs.xmx.network.RetrofitFactory
+import zs.xmx.network.manager.CacheManager
 import zs.xmx.network.manager.RetrofitUrlManager
 import zs.xmx.retrofit.constant.UrlConstant
 import zs.xmx.retrofit.databinding.ActivityMainBinding
 import zs.xmx.retrofit.net.TestApi
 import java.lang.reflect.ParameterizedType
 
-
+//https://blog.csdn.net/qqyanjiang/article/details/51316116
 class MainActivity : AppCompatActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +22,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         mBinding.button.setOnClickListener {
+            val mutableListOf = mutableListOf(TestBean(), TestBean())
+            CacheManager.save("aa", mutableListOf)
 
+            val mutableList = CacheManager.getCache("aa") as MutableList<*>
+            Log.e("aaaa", "" + mutableList.size)
         }
 
         //{"baidu","http://www.baidu.com"}
@@ -36,9 +42,9 @@ class MainActivity : AppCompatActivity() {
             val ganHuo = RetrofitFactory.instance.create(TestApi::class.java).getGanHuo()
 
             RetrofitFactory.instance.create(TestApi::class.java).getGanHuo()
-                .enqueue(object : ApiCallback<Any?>() {
-                    override fun onSuccess(t: Any?) {
-                        Log.d("HAHA", "GanHuo:   " + t.toString())
+                .enqueue(object : ApiCallback<MutableList<TestBean>?>() {
+                    override fun onSuccess(t: MutableList<TestBean>?) {
+                        Log.d("HAHA", "GanHuo:   " + t?.size)
                     }
 
                     override fun onFailed(code: Int, msg: String?) {
@@ -46,7 +52,9 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onCacheSuccess(t: Any?) {
-                        Log.d("HAHA", "GanHuo:(onCacheSuccess)   " + t.toString())
+                        val mutableList = t as MutableList<*>?
+                        Log.d("HAHA", "GanHuo:(onCacheSuccess)   " + mutableList?.size)
+                        //        Log.d("HAHA", "GanHuo:(onCacheSuccess)   " + t.toString())
                     }
                 })
         }

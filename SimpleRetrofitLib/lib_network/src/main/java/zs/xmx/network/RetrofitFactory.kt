@@ -3,11 +3,13 @@ package zs.xmx.network
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.internal.cache.CacheInterceptor
 import retrofit2.CallAdapter
 import retrofit2.Converter
 import retrofit2.Retrofit
 import zs.xmx.network.config.ConfigKeys
 import zs.xmx.network.config.NetWorkInit
+import zs.xmx.network.interceptor.CacheDataInterceptor
 import zs.xmx.network.utils.HttpsUtils
 import zs.xmx.network.manager.RetrofitUrlManager
 import java.util.*
@@ -82,14 +84,15 @@ class RetrofitFactory private constructor() {
                 //request 和 response 都调用一次
                 //okhttpBuilder.addNetworkInterceptor(interceptor)
             }
-            okhttpBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
-            okhttpBuilder.readTimeout(timeOut, TimeUnit.SECONDS)
-            okhttpBuilder.writeTimeout(timeOut, TimeUnit.SECONDS)
-            okhttpBuilder.sslSocketFactory(
-                HttpsUtils.initSSLSocketFactory(),
-                HttpsUtils.initTrustManager()
-            )
         }
+        okhttpBuilder.addInterceptor(CacheDataInterceptor())
+        okhttpBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
+        okhttpBuilder.readTimeout(timeOut, TimeUnit.SECONDS)
+        okhttpBuilder.writeTimeout(timeOut, TimeUnit.SECONDS)
+        okhttpBuilder.sslSocketFactory(
+            HttpsUtils.initSSLSocketFactory(),
+            HttpsUtils.initTrustManager()
+        )
         return okhttpBuilder.build()
     }
 

@@ -32,10 +32,11 @@ abstract class ApiCallback<T> : Callback<ApiResponse<T>> {
         ArchTaskExecutor.getMainThreadExecutor().execute {
             //已在主线程中，更新UI
             val result = response.body()
+
             if (response.isSuccessful && result != null) {
                 if (result.status == ResultCode.Success) {
                     CacheManager.save(request.url.toString(), result.data)
-                    Log.d("CacheManager", request.url.toString())
+                    Log.d("CacheManager", result.toString())
                     onSuccess(result.data)
                 } else {
                     onFailed(result.status, result.message)
